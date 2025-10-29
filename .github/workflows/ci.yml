@@ -7,16 +7,17 @@ on:
 jobs:
     mongo-init:
         runs-on: ubuntu-latest
+
+        env:
+            PORT: ${ { secrets.PORT } }
+            MONGO_URI: ${ { secrets.MONGO_URI } }
+
         services:
             mongo:
                 image: mongo
                 ports:
                     - 27017:27017
 
-        env:
-            PORT: ${ { secrets.PORT } }
-            MONGO_URI: ${ { secrets.MONGO_URI } }
-            
         steps:
             - name: Checkout Repository
               uses: actions/checkout@v5
@@ -38,7 +39,7 @@ jobs:
               working-directory: ./backend
               run: |
                   npm install
-                  node seedTaskData.js
+                  node seedTasksData.js
 
     test:
         runs-on: ubuntu-latest
